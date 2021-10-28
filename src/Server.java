@@ -1,6 +1,7 @@
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class Server {
     ServerSocket ss;
@@ -9,6 +10,8 @@ public class Server {
     OutputStreamWriter out;
     BufferedReader reader;
     BufferedWriter writer;
+
+    ArrayList<Socket> online = new ArrayList<Socket>();
     private int users =0;
 
 
@@ -17,7 +20,8 @@ public class Server {
             Server server = new Server();
             server.startServer();
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Connection lost SERVER");
+//            e.printStackTrace();
         }
 
 
@@ -34,11 +38,20 @@ public class Server {
         while(true){
             try {
                 socket = ss.accept();
+//                sendMessage(socket);
+                online.add(socket);
                 clientHandler handler = new clientHandler(socket);
                 handler.start();
 //                receiveMessages();
+//                for(Socket soc:online){
+//                    writer = new BufferedWriter(new OutputStreamWriter(soc.getOutputStream()));
+//                    writer.write("Tet");
+//                    writer.newLine();
+//                    writer.flush();
+//                }
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println("Connection lost SERVER");
+//                e.printStackTrace();
             }
 
         }
@@ -46,17 +59,31 @@ public class Server {
 
     }
 
-    private void receiveMessages() {
+//    private void receiveMessages() {
+//
+//        try {
+//            while(true){
+//                reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+//                System.out.println(reader.readLine());
+//                System.out.println("Users Online"+online.size());
+//            }
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
-        try {
-            while(true){
-                reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                System.out.println(reader.readLine());
-            }
+public void sendMessage(Socket soc ){
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    try {
+        writer = new BufferedWriter(new OutputStreamWriter(soc.getOutputStream()));
+        writer.write("Hello User from server");
+        writer.newLine();
+        writer.flush();
+    } catch (IOException e) {
+        e.printStackTrace();
     }
+
+}
 
 }

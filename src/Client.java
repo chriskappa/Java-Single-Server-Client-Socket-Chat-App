@@ -68,22 +68,44 @@ public class Client {
     public void login(){
         System.out.println("Welcome To The Chat Room!");
     }
-    public void sendMessage(){
+    public void sendMessage() {
         Random rand = new Random();
     while(true){
-        try {
+
+        try {;
             System.out.println("Enter Your Message!");
             String msg = read.nextLine();
-            if(msg.equals("exit")) break;
-            writer.write(users.size() > 0 ? users.get(0).getUserName().toUpperCase()+":"+msg : "User "+rand.nextInt(2)+" "+msg);
+            if(msg.equals("exit")) exitFromApp();
+            writer.write(users.size() > 0 ? users.get(0).getUserName().toUpperCase()+":"+msg : "User "+rand.nextInt(10)+" "+msg);
             writer.newLine();
             writer.flush();
+
+
+
         } catch (IOException e) {
+            System.out.println("Lost Connection with the Server!");
             e.printStackTrace();
         }
     }
 
     }
+
+    private void exitFromApp() {
+        System.out.println("Thank you for using this chat Application");
+        try {
+
+
+            for (int i = 0; i < 7; i++) {
+                System.out.print(".");
+                Thread.sleep(200);
+            }
+            System.exit(1000);
+        }
+        catch(InterruptedException e){
+            System.out.println(e);
+        }
+    }
+
     public void createAccount(){
         System.out.println("Please Enter Your Account Name!");
         String name = read.nextLine();
