@@ -2,6 +2,7 @@ import java.io.*;
 import java.net.Socket;
 import java.sql.SQLOutput;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Client {
@@ -68,12 +69,13 @@ public class Client {
         System.out.println("Welcome To The Chat Room!");
     }
     public void sendMessage(){
+        Random rand = new Random();
     while(true){
         try {
             System.out.println("Enter Your Message!");
             String msg = read.nextLine();
             if(msg.equals("exit")) break;
-            writer.write(users.size() > 0 ? users.get(0).getUserName().toUpperCase()+":"+msg : "ANONYMOUS:"+msg);
+            writer.write(users.size() > 0 ? users.get(0).getUserName().toUpperCase()+":"+msg : "User "+rand.nextInt(2)+" "+msg);
             writer.newLine();
             writer.flush();
         } catch (IOException e) {

@@ -34,15 +34,9 @@ public class Server {
         while(true){
             try {
                 socket = ss.accept();
-                System.out.println("User Connected!");
-                reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-
-                /*While loop in order to read messages from the Clients*/
-                while(true){
-                    String msg = reader.readLine();
-                    System.out.println(msg);
-                }
+                clientHandler handler = new clientHandler(socket);
+                handler.start();
+//                receiveMessages();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -50,6 +44,19 @@ public class Server {
         }
 
 
+    }
+
+    private void receiveMessages() {
+
+        try {
+            while(true){
+                reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                System.out.println(reader.readLine());
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
