@@ -72,7 +72,8 @@ public class Client {
         try {
             System.out.println("Enter Your Message!");
             String msg = read.nextLine();
-            writer.write(users.get(0).getUserName().toUpperCase()+":"+msg);
+            if(msg.equals("exit")) break;
+            writer.write(users.size() > 0 ? users.get(0).getUserName().toUpperCase()+":"+msg : "ANONYMOUS:"+msg);
             writer.newLine();
             writer.flush();
         } catch (IOException e) {
